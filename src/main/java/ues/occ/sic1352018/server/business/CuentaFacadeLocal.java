@@ -5,8 +5,8 @@
  */
 package ues.occ.sic1352018.server.business;
 
-import definiciones.Cuenta;
 import javax.ejb.Local;
+import ues.occ.sic1352018.libreriacontables.Cuenta;
 
 /**
  *

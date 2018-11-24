@@ -29,6 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(ues.occ.sic1352018.server.rest.service.CORS.class);
         resources.add(ues.occ.sic1352018.server.rest.service.CuentaRest.class);
         resources.add(ues.occ.sic1352018.server.rest.service.TransaccionRest.class);
     }

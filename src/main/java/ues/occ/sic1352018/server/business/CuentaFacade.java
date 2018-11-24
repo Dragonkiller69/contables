@@ -5,10 +5,10 @@
  */
 package ues.occ.sic1352018.server.business;
 
-import definiciones.Cuenta;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import ues.occ.sic1352018.libreriacontables.Cuenta;
 
 /**
  *

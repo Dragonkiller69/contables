@@ -5,9 +5,9 @@
  */
 package ues.occ.sic1352018.server.rest.service;
 
-import definiciones.Cuenta;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
+import ues.occ.sic1352018.libreriacontables.Cuenta;
 import ues.occ.sic1352018.server.business.CuentaFacadeLocal;
 import ues.occ.sic1352018.server.business.GenericFacade;
 

@@ -5,9 +5,9 @@
  */
 package ues.occ.sic1352018.server.rest.service;
 
-import definiciones.Transaccion;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
+import ues.occ.sic1352018.libreriacontables.Transaccion;
 import ues.occ.sic1352018.server.business.GenericFacade;
 import ues.occ.sic1352018.server.business.TransaccionFacadeLocal;
 

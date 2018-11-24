@@ -60,7 +60,7 @@ public abstract class GenericRest<T> {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public T findById(
-            @PathParam("id") int id) {
+            @PathParam("id") String id) {
         GenericFacade facadeLocal = getFacadeLocal();
         try {
             if (facadeLocal != null) {
