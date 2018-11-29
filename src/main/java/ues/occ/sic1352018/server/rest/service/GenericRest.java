@@ -7,8 +7,12 @@ package ues.occ.sic1352018.server.rest.service;
 
 import java.util.Collections;
 import java.util.List;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -21,10 +25,11 @@ import ues.occ.sic1352018.server.business.GenericFacade;
  * @author kevin
  */
 public abstract class GenericRest<T> {
-    
+
     protected abstract GenericFacade<T> getFacadeLocal();
+
     protected abstract T getNewEntity();
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<T> findAll() {
@@ -39,7 +44,7 @@ public abstract class GenericRest<T> {
 
         return Collections.EMPTY_LIST;
     }
-    
+
     @GET
     @Path("{inicio}/{tamanio}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,7 +60,7 @@ public abstract class GenericRest<T> {
         }
         return Collections.EMPTY_LIST;
     }
-    
+
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -71,5 +76,60 @@ public abstract class GenericRest<T> {
         }
         return getNewEntity();
     }
-    
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void crear(T registro) {
+        if (registro != null) {
+            GenericFacade facadeLocal = getFacadeLocal();
+            try {
+                if (facadeLocal != null) {
+                    facadeLocal.create(registro);
+
+                }
+            } catch (Exception e) {
+                System.out.println("ex: " + e);
+            }
+        }
+    }
+
+//    @PUT
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public T editar(T reg) {
+//        if (reg != null) {
+//            try {
+//                if (getFacadeLocal() != null) {
+//                    T u = getFacadeLocal().editar(reg);
+//                    if (u != null) {
+//                        return u;
+//                    }
+//                }
+//            } catch (Exception e) {
+//                System.out.println("ex: " + e);
+//            }
+//        }
+//        return getNewEntity();
+//    }
+//
+//    @DELETE
+//    @Path("{id}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public T eliminar(@PathParam("id") int id) {
+//        if (id > 0) {
+//            try {
+//                if (getFacadeLocal() != null) {
+//                    T u = getFacadeLocal().remover(getFacadeLocal().find(id));
+//                    if (u != null) {
+//                        return u;
+//                    }
+//                }
+//            } catch (Exception e) {
+//                System.out.println("ex: " + e);
+//            }
+//        }
+//        return getNewEntity();
+//    }
 }
