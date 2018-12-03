@@ -29,8 +29,8 @@ import ues.occ.sic1352018.server.business.GenericFacade;
  * @author kevin
  */
 @Path("cuenta")
-public class CuentaRest extends GenericRest<Cuenta>{
-    
+public class CuentaRest extends GenericRest<Cuenta> {
+
     @EJB
     CuentaFacadeLocal cuentaFacade;
 
@@ -43,12 +43,12 @@ public class CuentaRest extends GenericRest<Cuenta>{
     protected Cuenta getNewEntity() {
         return new Cuenta();
     }
-    
+
     @GET
     @Path("ultimas")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Cuenta> findLast(){
-        
+    public List<Cuenta> findLast() {
+
         try {
             if (cuentaFacade != null) {
                 return cuentaFacade.findLast();
@@ -56,41 +56,39 @@ public class CuentaRest extends GenericRest<Cuenta>{
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
-         return Collections.EMPTY_LIST;
-    
+        return Collections.EMPTY_LIST;
+
     }
-    
+
     @GET
     @Path("balance")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getBalance(){
+    public String getBalance() {
         try {
             if (cuentaFacade != null) {
                 return new Gson().toJson((cuentaFacade.createBalance()));
-                
+
             }
-         } catch (Exception e) {
-             System.out.println("ERROR EN GET BALANCE");
+        } catch (Exception e) {
+            System.out.println("ERROR EN GET BALANCE");
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
-         return "";
+        return "";
     }
-    
+
     @GET
-    @Path("estadoresultados")
+    @Path("estados")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getEstadoResultados(){
+    public String getEstadosFinancieros() {
         try {
             if (cuentaFacade != null) {
-                return cuentaFacade.createEstadoResultados();
+                return cuentaFacade.createEstadosFinancieros();
             }
-         } catch (Exception e) {
-             System.out.println("ERROR EN GET ESTADO");
+        } catch (Exception e) {
+            System.out.println("ERROR EN GET ESTADOS FINANCIEROS");
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
-         return "";
+        return "";
     }
-    
-   
-    
+
 }

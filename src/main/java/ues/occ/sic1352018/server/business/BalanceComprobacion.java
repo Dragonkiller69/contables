@@ -12,18 +12,13 @@ public class BalanceComprobacion {
     private Double abonos = 0.0;
 
     public BalanceComprobacion(String cuenta, Double cargos, Double abonos) {
-        if (cargos == null) {
-            this.cuenta = cuenta;
-        this.cargos = 0.0;
+        this.cuenta = cuenta;
         this.abonos = abonos;
-        } else if (abonos == null) {
-            this.cuenta = cuenta;
         this.cargos = cargos;
+        if (cargos == null) {
+        this.cargos = 0.0;
+        }if (abonos == null) {
         this.abonos = 0.0;
-        } else {
-            this.cuenta = cuenta;
-            this.cargos = cargos;
-            this.abonos = abonos;
         }
 
     }

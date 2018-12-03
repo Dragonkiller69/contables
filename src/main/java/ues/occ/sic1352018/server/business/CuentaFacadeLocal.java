@@ -22,6 +22,13 @@ public interface CuentaFacadeLocal extends GenericFacade<Cuenta> {
 
     public String createEstadoResultados();
 
+    public String createEstadoVariacionCapital();
+
+    public String createBalanceGeneral();
+
+    public String createEstadosFinancieros();
+
+
     
 
 }

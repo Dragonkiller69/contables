@@ -18,6 +18,17 @@ public class EstadoResultados {
         this.cuenta = cuenta;
         this.saldo = saldo;
     }
+    
+    public EstadoResultados(String cuenta, Double saldo, Double fake) {
+        this.cuenta = cuenta;
+        if (saldo != null) {
+            this.saldo = saldo;
+        } else{
+            this.saldo = fake;
+        }
+        
+        
+    }
 
     @Override
     public String toString() {

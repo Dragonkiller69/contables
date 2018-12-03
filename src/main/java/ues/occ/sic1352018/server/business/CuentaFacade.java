@@ -6,6 +6,7 @@
 package ues.occ.sic1352018.server.business;
 
 import com.google.gson.Gson;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -68,6 +69,7 @@ public class CuentaFacade extends AbstractFacade<Cuenta> implements CuentaFacade
 
     public List<BalanceComprobacion> agregarAbonos(List<BalanceComprobacion> lista) {
         List<BalanceComprobacion> abonos;
+        Double total;
         try {
             abonos = em.createQuery("SELECT DISTINCT  NEW ues.occ.sic1352018.server.business.BalanceComprobacion(g.nombre, tl.monto, SUM(tl.monto))  FROM Cuenta g\n"
                     + "LEFT JOIN g.transaccionList tl \n"
@@ -78,9 +80,22 @@ public class CuentaFacade extends AbstractFacade<Cuenta> implements CuentaFacade
 
             Iterator<BalanceComprobacion> iteradorCargos = lista.iterator();
             Iterator<BalanceComprobacion> iteradorAbonos = abonos.iterator();
+            BalanceComprobacion cargo;
+            BalanceComprobacion abono;
 
             while (iteradorAbonos.hasNext() && iteradorCargos.hasNext()) {
-                iteradorCargos.next().setAbonos(iteradorAbonos.next().getAbonos());
+                cargo = iteradorCargos.next();
+                abono = iteradorAbonos.next();
+                total = cargo.getCargos() - abono.getAbonos();
+                System.out.println("total " + total);
+                if (total > 0) {
+                    cargo.setCargos(total);
+                    cargo.setAbonos(0.0);
+                } else {
+                    cargo.setAbonos(total * (-1));
+                    cargo.setCargos(0.0);
+                }
+
             }
 
         } catch (Exception e) {
@@ -131,7 +146,7 @@ public class CuentaFacade extends AbstractFacade<Cuenta> implements CuentaFacade
     public Double getUtilidad() {
         Double utilidad = 0.0;
         try {
-            utilidad = em.createNamedQuery("Cuenta.findUtilidad",Double.class).getSingleResult();
+            utilidad = em.createNamedQuery("Cuenta.findUtilidad", Double.class).getSingleResult();
             System.out.println(utilidad);
         } catch (Exception e) {
             System.out.println("ERROR EN UTILIDAD");
@@ -139,16 +154,104 @@ public class CuentaFacade extends AbstractFacade<Cuenta> implements CuentaFacade
         }
         return utilidad;
     }
-    
+
     @Override
-    public String createEstadoResultados(){
+    public String createEstadoResultados() {
         Gson gson = new Gson();
         Double utilidad = getUtilidad();
-        String ingresos = gson.toJson(getIngresos()).replaceAll("\\[", "").replaceAll("\\]","");
-        String gastos = gson.toJson(getGastos()).replaceAll("\\[", "").replaceAll("\\]","");
-        String json = "[{\"ingresos\":["+ingresos+"]},{\"gastos\":["+gastos+"]},{\"utilidad\":"+"\""+utilidad+"\""+"}]";
+        String ingresos = gson.toJson(getIngresos()).replaceAll("\\[", "").replaceAll("\\]", "");
+        String gastos = gson.toJson(getGastos()).replaceAll("\\[", "").replaceAll("\\]", "");
+        String json = "[{\"ingresos\":[" + ingresos + "]},{\"gastos\":[" + gastos + "]},{\"utilidad\":" + "\"" + utilidad + "\"" + "}]";
         System.out.println(json);
         return json;
-        
+
+    }
+
+    public List<EstadoResultados> getVariacionCapital() {
+        List<EstadoResultados> lista = Collections.EMPTY_LIST;
+        try {
+            lista = em.createQuery("SELECT NEW ues.occ.sic1352018.server.business.EstadoResultados(c.nombre, SUM(t.monto),SUM(tl.monto)) FROM Cuenta c\n"
+                    + "LEFT JOIN c.transaccionList tl\n"
+                    + "LEFT JOIN c.transaccionList1 t\n"
+                    + "WHERE c.codigoCuenta LIKE \"3.%\"\n"
+                    + "GROUP BY c.nombre\n"
+                    + "").getResultList();
+        } catch (Exception e) {
+            System.out.println("ERROR EN ESTADO DE RESULTADOS");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+
+        }
+        return lista;
+    }
+
+    public Double getCapitalFinal() {
+        Double utilidad = getUtilidad();
+        Double total = 0.0;
+        List<EstadoResultados> lista = getVariacionCapital();
+        for (EstadoResultados saldo : lista) {
+            if (saldo.getCuenta().equals("Retiros")) {
+                total -= saldo.getSaldo();
+            } else {
+                total += saldo.getSaldo();
+            }
+        }
+        return total + utilidad;
+
+    }
+
+    @Override
+    public String createEstadoVariacionCapital() {
+        Gson gson = new Gson();
+        Double total = getCapitalFinal();
+        Double utilidad = getUtilidad();
+        String capital = gson.toJson(getVariacionCapital()).replaceAll("\\[", "").replaceAll("\\]", "");
+        String json = "[" + capital + ",{\"cuenta\":\"utilidad\",\"saldo\":" + utilidad + "},{\"cuenta\":\"total\",\"saldo\":" + total + "}]";
+        System.out.println(json);
+        return json;
+    }
+
+    public List<BalanceComprobacion> prepareBalanceGeneral(String query) {
+        List<String> cuentasLista;
+        List<BalanceComprobacion> balanceComporbacion = createBalance();
+        List<BalanceComprobacion> cuentas = new ArrayList<>();
+        try {
+            cuentasLista = em.createQuery(query).getResultList();
+
+            for (String nuevaCuenta : cuentasLista) {
+                for (BalanceComprobacion cuenta : balanceComporbacion) {
+                    if (nuevaCuenta.equals(cuenta.getCuenta())) {
+                        cuentas.add(cuenta);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR EN GENERAR ACTIVO O PASIVO");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+
+        return cuentas;
+    }
+
+    @Override
+    public String createBalanceGeneral() {
+        String queryActivos = "SELECT c.nombre FROM Cuenta c WHERE c.codigoCuenta NOT IN(SELECT c.cuentaPadre.codigoCuenta FROM Cuenta c ) AND c.codigoCuenta LIKE \"1.%\" ORDER BY c.codigoCuenta";
+        String queryPasivos = "SELECT c.nombre FROM Cuenta c WHERE c.codigoCuenta NOT IN(SELECT c.cuentaPadre.codigoCuenta FROM Cuenta c ) AND c.codigoCuenta LIKE \"2.%\" ORDER BY c.codigoCuenta";
+        List<BalanceComprobacion> activosLista = prepareBalanceGeneral(queryActivos);
+        List<BalanceComprobacion> pasivosLista = prepareBalanceGeneral(queryPasivos);
+        Double capital = getCapitalFinal();
+        Gson gson = new Gson();
+        String activos = gson.toJson(activosLista).replaceAll("\\[", "").replaceAll("\\]", "");
+        String pasivos = gson.toJson(pasivosLista).replaceAll("\\[", "").replaceAll("\\]", "");
+        String json = "[{\"activos\":[" + activos + "]},{\"pasivos\":[" + pasivos + "]},{\"capital\":" + capital + "}]";
+        System.out.println(json);
+        return json;
+    }
+    
+    @Override
+    public String createEstadosFinancieros(){
+        String EstadosFinancierosJSON;
+        EstadosFinancierosJSON = "[{\"EstadoResultados\":"+createEstadoResultados()+"},{\"EstadoVariacionCapital\":"+createEstadoVariacionCapital()+"},{\"BalanceGeneral\":"+createBalanceGeneral()+"}]";
+        return EstadosFinancierosJSON;
     }
 }
