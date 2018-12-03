@@ -5,14 +5,22 @@
  */
 package ues.occ.sic1352018.server.rest.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import ues.occ.sic1352018.libreriacontables.Cuenta;
+import ues.occ.sic1352018.server.business.BalanceComprobacion;
 import ues.occ.sic1352018.server.business.CuentaFacadeLocal;
 import ues.occ.sic1352018.server.business.GenericFacade;
 
@@ -46,10 +54,43 @@ public class CuentaRest extends GenericRest<Cuenta>{
                 return cuentaFacade.findLast();
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
          return Collections.EMPTY_LIST;
     
     }
+    
+    @GET
+    @Path("balance")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getBalance(){
+        try {
+            if (cuentaFacade != null) {
+                return new Gson().toJson((cuentaFacade.createBalance()));
+                
+            }
+         } catch (Exception e) {
+             System.out.println("ERROR EN GET BALANCE");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+         return "";
+    }
+    
+    @GET
+    @Path("estadoresultados")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getEstadoResultados(){
+        try {
+            if (cuentaFacade != null) {
+                return cuentaFacade.createEstadoResultados();
+            }
+         } catch (Exception e) {
+             System.out.println("ERROR EN GET ESTADO");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+         return "";
+    }
+    
+   
     
 }

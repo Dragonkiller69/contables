@@ -5,17 +5,27 @@
  */
 package ues.occ.sic1352018.server.business;
 
-
 public class BalanceComprobacion {
-    
-    private String cuenta;
-    private float  cargos;
-    private float abonos;
 
-    public BalanceComprobacion(String cuenta, float cargos, float abonos) {
-        this.cuenta = cuenta;
-        this.cargos = cargos;
+    private String cuenta;
+    private Double cargos = 0.0;
+    private Double abonos = 0.0;
+
+    public BalanceComprobacion(String cuenta, Double cargos, Double abonos) {
+        if (cargos == null) {
+            this.cuenta = cuenta;
+        this.cargos = 0.0;
         this.abonos = abonos;
+        } else if (abonos == null) {
+            this.cuenta = cuenta;
+        this.cargos = cargos;
+        this.abonos = 0.0;
+        } else {
+            this.cuenta = cuenta;
+            this.cargos = cargos;
+            this.abonos = abonos;
+        }
+
     }
 
     @Override
@@ -23,7 +33,6 @@ public class BalanceComprobacion {
         return "BalanceComprobacion{" + "cuenta=" + cuenta + ", cargos=" + cargos + ", abonos=" + abonos + '}';
     }
 
-    
     public String getCuenta() {
         return cuenta;
     }
@@ -32,22 +41,20 @@ public class BalanceComprobacion {
         this.cuenta = cuenta;
     }
 
-    public float getCargos() {
+    public Double getCargos() {
         return cargos;
     }
 
-    public void setCargos(float cargos) {
+    public void setCargos(Double cargos) {
         this.cargos = cargos;
     }
 
-    public float getAbonos() {
+    public Double getAbonos() {
         return abonos;
     }
 
-    public void setAbonos(float abonos) {
+    public void setAbonos(Double abonos) {
         this.abonos = abonos;
     }
-    
-    
-    
+
 }

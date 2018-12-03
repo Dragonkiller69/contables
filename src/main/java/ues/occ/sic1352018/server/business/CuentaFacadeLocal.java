@@ -14,7 +14,14 @@ import ues.occ.sic1352018.libreriacontables.Cuenta;
  * @author kevin
  */
 @Local
-public interface CuentaFacadeLocal extends GenericFacade<Cuenta>{
+public interface CuentaFacadeLocal extends GenericFacade<Cuenta> {
 
     public List<Cuenta> findLast();
+
+    public List<BalanceComprobacion> createBalance();
+
+    public String createEstadoResultados();
+
+    
+
 }

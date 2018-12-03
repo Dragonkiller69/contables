@@ -1,0 +1,14 @@
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/TransaccionFacade.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/CuentaFacade.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/TransaccionFacadeLocal.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/CuentaFacadeLocal.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/rest/service/GenericRest.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/rest/service/TransaccionRest.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/TransaccionShort.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/rest/service/CuentaRest.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/BalanceComprobacion.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/AbstractFacade.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/EstadoResultados.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/business/GenericFacade.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/ues/occ/sic1352018/server/rest/service/CORS.java
+/home/kevin/NetBeansProjects/serverSistemaContable/src/main/java/org/netbeans/rest/application/config/ApplicationConfig.java

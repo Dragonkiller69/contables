@@ -7,6 +7,8 @@ package ues.occ.sic1352018.server.rest.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -39,7 +41,7 @@ public abstract class GenericRest<T> {
                 return facadeLocal.findAll();
             }
         } catch (Exception e) {
-            System.out.println("ex: " + e);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
 
         return Collections.EMPTY_LIST;
@@ -57,7 +59,7 @@ public abstract class GenericRest<T> {
                 return getFacadeLocal().findRange(inicio, tamanio);
             }
         } catch (Exception e) {
-            System.out.println("ex: " + e);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         return Collections.EMPTY_LIST;
     }
@@ -73,7 +75,7 @@ public abstract class GenericRest<T> {
                 return (T) facadeLocal.find(id);
             }
         } catch (Exception e) {
-            System.out.println("ex: " + e);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         return getNewEntity();
     }
@@ -91,7 +93,7 @@ public abstract class GenericRest<T> {
 
                 }
             } catch (Exception e) {
-                System.out.println("ex: " + e);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
             }
         }
     }

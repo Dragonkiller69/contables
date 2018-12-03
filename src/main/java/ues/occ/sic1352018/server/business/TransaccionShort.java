@@ -17,11 +17,11 @@ public class TransaccionShort {
     
     private String cargo;
     private String abono;
-    private float monto;
+    private Double monto;
     private String descripcion;
     private Date fecha;
 
-    public TransaccionShort(String cargo, String abono, float monto, String descripcion, Date fecha)  {
+    public TransaccionShort(String cargo, String abono, Double monto, String descripcion, Date fecha)  {
         this.cargo = cargo;
         this.abono = abono;
         this.monto = monto;
@@ -61,11 +61,11 @@ public class TransaccionShort {
         this.abono = abono;
     }
 
-    public float getMonto() {
+    public Double getMonto() {
         return monto;
     }
 
-    public void setMonto(float monto) {
+    public void setMonto(Double monto) {
         this.monto = monto;
     }
 
