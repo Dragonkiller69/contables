@@ -5,6 +5,8 @@
  */
 package ues.occ.sic1352018.server.business;
 
+import java.util.Collections;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +30,19 @@ public class CuentaFacade extends AbstractFacade<Cuenta> implements CuentaFacade
     public CuentaFacade() {
         super(Cuenta.class);
     }
-
+    
+    @Override
+    public List<Cuenta> findLast(){
+         List<Cuenta> lista = Collections.EMPTY_LIST;
+        try {
+              lista = em.createQuery("SELECT DISTINCT m FROM Cuenta m WHERE m.codigoCuenta NOT IN(SELECT DISTINCT g.cuentaPadre.codigoCuenta FROM Cuenta g)").getResultList();
+              
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("ERROR EN TRANSSACION");
+        }
+        return lista;
+    }
    
     
 }

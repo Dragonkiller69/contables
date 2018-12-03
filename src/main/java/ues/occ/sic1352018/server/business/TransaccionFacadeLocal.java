@@ -5,6 +5,7 @@
  */
 package ues.occ.sic1352018.server.business;
 
+import java.util.List;
 import javax.ejb.Local;
 import ues.occ.sic1352018.libreriacontables.Transaccion;
 
@@ -14,6 +15,9 @@ import ues.occ.sic1352018.libreriacontables.Transaccion;
  */
 @Local
 public interface TransaccionFacadeLocal extends GenericFacade<Transaccion>{
-
+    
+    public List<TransaccionShort> findShort();
+    
+    
     
 }

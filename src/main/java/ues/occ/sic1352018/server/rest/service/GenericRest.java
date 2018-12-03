@@ -44,6 +44,7 @@ public abstract class GenericRest<T> {
 
         return Collections.EMPTY_LIST;
     }
+    
 
     @GET
     @Path("{inicio}/{tamanio}")
@@ -86,6 +87,7 @@ public abstract class GenericRest<T> {
             try {
                 if (facadeLocal != null) {
                     facadeLocal.create(registro);
+                    System.out.println("AQUI EN EL POST PERROS");
 
                 }
             } catch (Exception e) {
@@ -113,23 +115,21 @@ public abstract class GenericRest<T> {
 //        return getNewEntity();
 //    }
 //
-//    @DELETE
-//    @Path("{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public T eliminar(@PathParam("id") int id) {
-//        if (id > 0) {
-//            try {
-//                if (getFacadeLocal() != null) {
-//                    T u = getFacadeLocal().remover(getFacadeLocal().find(id));
-//                    if (u != null) {
-//                        return u;
-//                    }
-//                }
-//            } catch (Exception e) {
-//                System.out.println("ex: " + e);
-//            }
-//        }
-//        return getNewEntity();
-//    }
+    @DELETE
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public T eliminar(@PathParam("id") int id) {
+        if (id > 0) {
+            GenericFacade facadeLocal = getFacadeLocal();
+            try {
+                if (facadeLocal != null) {
+                    facadeLocal.remove(facadeLocal.find(id));
+                }
+            } catch (Exception e) {
+                System.out.println("ex: " + e);
+            }
+        }
+        return getNewEntity();
+    }
 }

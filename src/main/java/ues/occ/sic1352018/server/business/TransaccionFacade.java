@@ -5,6 +5,8 @@
  */
 package ues.occ.sic1352018.server.business;
 
+import java.util.Collections;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +29,24 @@ public class TransaccionFacade extends AbstractFacade<Transaccion> implements Tr
 
     public TransaccionFacade() {
         super(Transaccion.class);
+    }
+    
+    @Override
+      public List<TransaccionShort> findShort(){
+         List<TransaccionShort> lista = Collections.EMPTY_LIST;
+        try {
+            System.out.println("en findShort local");
+              lista = em.createQuery("SELECT NEW ues.occ.sic1352018.server.business.TransaccionShort(t.idCargo.nombre,t.idAbono.nombre, t.monto, t.descripcion, t.fecha) FROM Transaccion t").getResultList();
+              for (TransaccionShort transaccionShort : lista) {
+                 transaccionShort.setFecha(transaccionShort.format(transaccionShort.getFecha()));
+                  System.out.println(transaccionShort.getFecha());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("ERROR EN TRANSSACION");
+        }
+        return lista;
+        
     }
     
 }

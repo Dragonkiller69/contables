@@ -5,6 +5,7 @@
  */
 package ues.occ.sic1352018.server.business;
 
+import java.util.List;
 import javax.ejb.Local;
 import ues.occ.sic1352018.libreriacontables.Cuenta;
 
@@ -15,5 +16,5 @@ import ues.occ.sic1352018.libreriacontables.Cuenta;
 @Local
 public interface CuentaFacadeLocal extends GenericFacade<Cuenta>{
 
- 
+    public List<Cuenta> findLast();
 }
