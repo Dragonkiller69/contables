@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import ues.occ.sic1352018.server.business.GenericFacade;
 
 /**
@@ -98,40 +99,41 @@ public abstract class GenericRest<T> {
         }
     }
 
-//    @PUT
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public T editar(T reg) {
-//        if (reg != null) {
-//            try {
-//                if (getFacadeLocal() != null) {
-//                    T u = getFacadeLocal().editar(reg);
-//                    if (u != null) {
-//                        return u;
-//                    }
-//                }
-//            } catch (Exception e) {
-//                System.out.println("ex: " + e);
-//            }
-//        }
-//        return getNewEntity();
-//    }
-//
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void editar(T registro) {
+        if (registro != null) {
+            GenericFacade facadeLocal = getFacadeLocal();
+            try {
+                if (facadeLocal != null) {
+                    facadeLocal.edit(registro);
+                    System.out.println("AQUI EN EL PUT PERROS");
+                }
+            } catch (Exception e) {
+              Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            }
+        }
+    }
+
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public T eliminar(@PathParam("id") int id) {
-        if (id > 0) {
+    public Response eliminar(@PathParam("id") String id) {
+        if (id != null) {
             GenericFacade facadeLocal = getFacadeLocal();
             try {
                 if (facadeLocal != null) {
                     facadeLocal.remove(facadeLocal.find(id));
+                    return Response.ok("FUNCIONO EL DELETE SOS LA MERA BERGA", MediaType.TEXT_PLAIN).build();
                 }
             } catch (Exception e) {
-                System.out.println("ex: " + e);
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+                return Response.serverError().build();
+                 
             }
         }
-        return getNewEntity();
+        return Response.noContent().build();
     }
 }

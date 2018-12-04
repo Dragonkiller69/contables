@@ -23,6 +23,8 @@ public class BalanceComprobacion {
 
     }
 
+   
+
     @Override
     public String toString() {
         return "BalanceComprobacion{" + "cuenta=" + cuenta + ", cargos=" + cargos + ", abonos=" + abonos + '}';

@@ -21,12 +21,21 @@ public class EstadoResultados {
     
     public EstadoResultados(String cuenta, Double saldo, Double fake) {
         this.cuenta = cuenta;
-        if (saldo != null) {
+        if (saldo != null ) {
             this.saldo = saldo;
-        } else{
+        }else{
             this.saldo = fake;
         }
         
+    }
+    
+    public EstadoResultados(String cuenta, Double saldo, Double fake, String masfake) {
+        this.cuenta = cuenta;
+        if (saldo != 0 ) {
+            this.saldo = saldo;
+        }else{
+            this.saldo = fake;
+        }
         
     }
 

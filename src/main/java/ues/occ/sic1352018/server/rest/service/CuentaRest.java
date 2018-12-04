@@ -77,6 +77,51 @@ public class CuentaRest extends GenericRest<Cuenta> {
     }
 
     @GET
+    @Path("estadoresultados")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getEstadoResultados() {
+        try {
+            if (cuentaFacade != null) {
+                return cuentaFacade.createEstadoResultados();
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR EN GET ESTADO");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        return "";
+    }
+
+    @GET
+    @Path("estadovariacion")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getEstadoVariacion() {
+        try {
+            if (cuentaFacade != null) {
+                return cuentaFacade.createEstadoVariacionCapital();
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR EN GET ESTADOVAR");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        return "";
+    }
+
+    @GET
+    @Path("balancegeneral")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getBal() {
+        try {
+            if (cuentaFacade != null) {
+                return cuentaFacade.createBalanceGeneral();
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR EN GET BALANCE GENERAL");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        return "";
+    }
+    
+    @GET
     @Path("estados")
     @Produces(MediaType.APPLICATION_JSON)
     public String getEstadosFinancieros() {
